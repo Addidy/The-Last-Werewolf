@@ -3,17 +3,18 @@ using System.Collections;
 
 public class SpaceToContinue : MonoBehaviour {
 
-    private LevelManager levelManager;
+    public string buttonToContinue = "Jump";
+    public int nextSceneBuildIndex = 1;
 
-	// Use this for initialization
+    private LevelManager levelManager;
+    
 	void Start () {
         levelManager = FindObjectOfType<LevelManager>(); //find and assign levelmanager
 	}
 	
-	// Update is called once per frame
 	void Update () {
-	    if(Input.GetButtonDown("Jump")) {   //when you press "space"
-            levelManager.LoadLevel(1);      //go to level specified (yes I know it's hardcoded... sue me)
+	    if(Input.GetButtonDown(buttonToContinue)) { //when you press "space"
+            levelManager.LoadLevel(nextSceneBuildIndex);     //go to level specified
         }
 	}
 }

@@ -3,12 +3,13 @@ using System.Collections;
 
 public class Building : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        int side = Random.Range(0, 4);
+
+
+    void Start () {
+        int side = Random.Range(0, 4);          //get a random number from 0 to 3 based off this number rotate the house at 90* angles
         switch (side) {
             case 1:
-                transform.Rotate(0, 90f, 0);
+                transform.Rotate(0, 90f, 0);    
                 break;
             case 2:
                 transform.Rotate(0, 180f, 0);
@@ -19,10 +20,5 @@ public class Building : MonoBehaviour {
             default:
                 break;
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }

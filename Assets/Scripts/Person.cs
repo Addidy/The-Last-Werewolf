@@ -16,7 +16,8 @@ public class Person : MonoBehaviour {
     private Gun gun;
     private Player player;
     private float stopDistance;
-    private GameObject target;
+    [HideInInspector]
+    public GameObject target;
     [HideInInspector]public bool alive = true;
     private Sight sight;
     private NavMeshAgent agent;
@@ -24,15 +25,15 @@ public class Person : MonoBehaviour {
 
 
     void Start() {
-        currentState = State.UNAWARE;
+        currentState = State.UNAWARE;                                       //start unaware of the werewolf
         if(GetComponentInChildren<Gun>()) {                                 //if you have a gun
             gun = GetComponentInChildren<Gun>();                            //assign your gun
         }
         target = FindObjectOfType<CheckpointAssigner>().AssignCheckPoint(); //assign initial checkpoint to run to
         agent = GetComponent<NavMeshAgent>();                               //get navagent
         agent.destination = target.transform.position;                      //go to initial checkpoint
-        sight = GetComponentInChildren<Sight>();
-        voice = GetComponentInChildren<Voice>();//get eyes
+        sight = GetComponentInChildren<Sight>();                            //get your vision
+        voice = GetComponentInChildren<Voice>();                            //get eyes
         player = FindObjectOfType<Player>();                                //get the player
         SwitchState(currentState);                                          //get starting state
     }
@@ -40,9 +41,8 @@ public class Person : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (alive) {    //if still alive and you aren't just standing there...
+            //agent.destination = target.transform.position;
             ContinueTask();                                 //continue doing current task
-        }else if(!alive) {                                  //is if you are not alive...
-            //Die();                                          //go die
         }
 	}
 
@@ -70,14 +70,13 @@ public class Person : MonoBehaviour {
             player.health += 5;
         }
         ScoreKeeper.score++;
-        //agent.destination = transform.position; //make destination current destination
+        agent.destination = transform.position; //make destination current destination
         Destroy(agent);
         alive = false;                          //change status to dead
         tag = "Body";
         voice.Speak(1);
         foreach (Transform child in gameObject.GetComponentsInChildren<Transform>()) {     
             if(!(child.gameObject == gameObject || child.gameObject.GetComponent<MeshRenderer>() || child.gameObject.GetComponent<Voice>())) {//change identifier to body
-                print(child);
                 Destroy(child.gameObject);
             }
         }
@@ -88,13 +87,13 @@ public class Person : MonoBehaviour {
 
     public IEnumerator Found(GameObject foundEntity) {
         if (foundEntity.tag == "Player") {                                                                                          //if you find the player...
-            voice.Speak(0);
+            voice.Speak(0);                                                                                                         //
             SwitchState(State.WITNESS);                                                                                             //become a witness
         } else if(foundEntity.tag == "Body" && currentState != State.WITNESS) {                                                     //if you find a dead body...
             SwitchState(State.ALERTED);                                                                                             //become alerted
         } else if(foundEntity.GetComponent<Person>()) {                                                                             //if you find another person...
             Person person = foundEntity.GetComponent<Person>();                                                                     //
-            if (person.currentState == State.ALERTED || person.currentState == State.WITNESS) {                                     //if that person is startled...
+            if (person.currentState == State.ALERTED || person.currentState == State.WITNESS && currentState != State.WITNESS) {                                   //if that person is startled...
                 SwitchState(State.ALERTED);                                                                                         //become startled yourself
             }
         } else if (foundEntity.gameObject.tag == "CheckPoint" && currentAction == Action.PATROLLING && target == foundEntity) {     //if you find a checkpoint while patrolling...
@@ -139,8 +138,9 @@ public class Person : MonoBehaviour {
             agent.destination = player.transform.position;  //go to the player...
             transform.LookAt(player.transform);             //stare him dead in the eye...
             gun.isAttacking = true;                         //and bust a cap in his ass
-        } else {                                            //if you can't see the player
-            gun.isAttacking = false;                        //stop shooting idiot
+        } else {
+            target = FindObjectOfType<CheckpointAssigner>().AssignCheckPoint();//if you can't see the player
+            gun.isAttacking = false;                        //stop shooting
             currentState = State.ALERTED;                   //stay frosty
             currentAction = Action.PATROLLING;              //start wandering around
         }

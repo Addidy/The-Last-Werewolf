@@ -20,7 +20,7 @@ public class HitMask : MonoBehaviour {
 	}
 
     public void GetHit() {
-        FindObjectOfType<Player>().GetComponentInChildren<Voice>().Speak(1);
-        image.color = new Color(red, 0, 0, 0.3f);   //when you get hit show a transparent red filter (update takes it off over time)
+        FindObjectOfType<Player>().GetComponentInChildren<Voice>().Speak(1);    //scream of pain
+        image.color = new Color(red, 0, 0, 0.3f);                               //when you get hit show a transparent red filter (update takes it off over time)
     }
 }

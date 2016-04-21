@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Camera))]
+[RequireComponent(typeof(Voice))]
+[RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour {
 
     public float speed = 100f;     //movement speed
@@ -18,8 +21,8 @@ public class Player : MonoBehaviour {
         health = 100;                                       // set initial health pool to 100
         rigidbody = GetComponent<Rigidbody>();              //get the rigidbody
         playerSight = GetComponentInChildren<Camera>();     //get eyes
-        anim = GetComponent<Animator>();
-        voice = GetComponentInChildren<Voice>();
+        anim = GetComponent<Animator>();                    //get animator
+        voice = GetComponentInChildren<Voice>();            //get voice
     }
 	
 	// Update is called once per frame

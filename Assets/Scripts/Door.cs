@@ -11,11 +11,11 @@ public class Door : MonoBehaviour {
     private float lastSpawned = 0;
 
     void Start() {
-        lastSpawned = -rateOfSpawn;
+        lastSpawned = -rateOfSpawn; //this allows instantaneous spawn
     }
 
     void Update() {
-        if (spawnDoor && Time.timeSinceLevelLoad >= lastSpawned + rateOfSpawn) {   //if this door spawns people and the time that has past is greater than the last time someone spawned plus the rate of spawn
+        if (spawnDoor && Time.timeSinceLevelLoad >= lastSpawned + rateOfSpawn) {    //if this door spawns people and the time that has past is greater than the last time someone spawned plus the rate of spawn
             Instantiate(spawnee, transform.position, Quaternion.identity);          //spawn another person
             lastSpawned = Time.timeSinceLevelLoad;                                  //set what time the last person spawned
         }

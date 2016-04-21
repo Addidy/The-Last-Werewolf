@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof(Collider))]
 public class PlayerAttack : MonoBehaviour {
 
     void OnTriggerEnter(Collider col) {         //when something enters the trigger

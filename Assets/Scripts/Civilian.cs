@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Civilian : Person {
 
+    //decision logic for civilian AI
 
     public override void SwitchState(State newState) {
         base.SwitchState(newState);

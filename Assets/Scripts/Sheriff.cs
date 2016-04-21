@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Sheriff : Person {
 
-
+    //decision logic for sheriff
 
     public override void SwitchState(State newState) {
         base.SwitchState(newState);

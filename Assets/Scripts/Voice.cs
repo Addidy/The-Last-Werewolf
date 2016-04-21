@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//this component stores predetermined audioclips
+//and can have the speak function accessed outside
+//by other scripts to play the clips necessary
+//(you will have to remember the index of the clips)
+
+[RequireComponent (typeof(AudioSource))]
 public class Voice : MonoBehaviour {
 
     public AudioClip[] clips;
